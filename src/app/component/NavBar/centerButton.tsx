@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const RightButton = () => {
+const CenterButton = () => {
   const pathname = usePathname();
 
   return (
@@ -32,4 +32,4 @@ const RightButton = () => {
   );
 };
 
-export default RightButton;
+export default CenterButton;
