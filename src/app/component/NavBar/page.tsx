@@ -50,7 +50,7 @@ const Navbar = () => {
         {/* Plan & Saved */}
         <div className="flex items-center gap-5 text-[15px]">
           <Link
-            href="/my-plan"
+            href="/myPlan"
             className="flex items-center gap-2 text-[#b5b5bb] transition hover:text-white"
           >
             <span>Plan</span>
@@ -61,7 +61,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/my-plan"
+            href="/myPlan"
             className="flex items-center gap-2 text-[#b5b5bb] transition hover:text-white"
           >
             <span>Saved</span>

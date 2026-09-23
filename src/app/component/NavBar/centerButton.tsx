@@ -19,9 +19,9 @@ const CenterButton = () => {
       </Link>
 
       <Link
-        href="/my-plan"
+        href="/myPlan"
         className={`rounded-full px-4 py-1.5 text-[11px] font-semibold transition ${
-          pathname === "/my-plan"
+          pathname === "/myPlan"
             ? "bg-[#ccff00] text-black"
             : "text-[#85858c] hover:text-white"
         }`}
