@@ -7,57 +7,51 @@ import PlanCard from "@/app/myPlan/planCard";
 import { gymTs } from "@/types/page";
 
 type Tab = "today" | "saved";
+type SortOption = "Duration" | "Calories" | "Name";
 
 const MyPlan = () => {
   const context = useContext(gymContext);
   const [activeTab, setActiveTab] = useState<Tab>("today");
+  const [sortBy, setSortBy] = useState<SortOption>("Duration");
 
   const myPlan = context?.myPlan ?? [];
   const savedLater = context?.savedLater ?? [];
 
-  const normalizeExercise = (exercise: gymTs) => ({
+  const normalizeExercise = (exercise: gymTs): gymTs => ({
     ...exercise,
-    duration:
-      typeof exercise.duration === "number"
-        ? `${exercise.duration} min`
-        : String(exercise.duration ?? ""),
-    caloriesBurned:
-      typeof exercise.caloriesBurned === "number"
-        ? `${exercise.caloriesBurned} kcal`
-        : String(exercise.caloriesBurned ?? ""),
+    duration: Number(exercise.duration ?? 0),
+    caloriesBurned: Number(exercise.caloriesBurned ?? 0),
   });
 
   const activeExercises = (activeTab === "today" ? myPlan : savedLater).map(
     normalizeExercise,
   );
 
+  // Stats calculate based on the total active tab list
   const stats = useMemo(() => {
     const exercises = activeExercises.length;
+    const minutes = activeExercises.reduce(
+      (total, exercise) => total + (exercise.duration ?? 0),
+      0,
+    );
+    const calories = activeExercises.reduce(
+      (total, exercise) => total + (exercise.caloriesBurned ?? 0),
+      0,
+    );
 
-    const minutes = activeExercises.reduce((total, exercise) => {
-      const value = Number(
-        String(exercise.duration ?? "").match(/\d+(\.\d+)?/)?.[0] ?? 0,
-      );
-      return total + value;
-    }, 0);
-
-    const calories = activeExercises.reduce((total, exercise) => {
-      const value = Number(
-        String(exercise.caloriesBurned ?? "").match(/\d+(\.\d+)?/)?.[0] ?? 0,
-      );
-      return total + value;
-    }, 0);
-
-    return {
-      exercises,
-      minutes,
-      calories,
-    };
+    return { exercises, minutes, calories };
   }, [activeExercises]);
 
-  const handleDelete = (id?: string | number) => {
-    console.log(`Removing exercise ${id} from ${activeTab}`);
-  };
+  // Sort logic applied before rendering
+  const sortedExercises = useMemo(() => {
+    return [...activeExercises].sort((a, b) => {
+      if (sortBy === "Duration") return (b.duration ?? 0) - (a.duration ?? 0); // High to Low
+      if (sortBy === "Calories")
+        return (b.caloriesBurned ?? 0) - (a.caloriesBurned ?? 0); // High to Low
+      if (sortBy === "Name") return a.name.localeCompare(b.name); // A to Z
+      return 0;
+    });
+  }, [activeExercises, sortBy]);
 
   if (!context) {
     return null;
@@ -144,16 +138,20 @@ const MyPlan = () => {
             <span className="hidden text-[10px] text-gray-500 sm:block">
               Sort By
             </span>
-            <select className="rounded-lg border border-[#252a33] bg-[#13161c] px-3 py-2 text-[10px] text-gray-300 outline-none">
-              <option>Duration</option>
-              <option>Calories</option>
-              <option>Name</option>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="rounded-lg border border-[#252a33] bg-[#13161c] px-3 py-2 text-[10px] text-gray-300 outline-none cursor-pointer"
+            >
+              <option value="Duration">Duration</option>
+              <option value="Calories">Calories</option>
+              <option value="Name">Name</option>
             </select>
           </div>
         </div>
 
         {/* Content Area */}
-        {activeExercises.length === 0 ? (
+        {sortedExercises.length === 0 ? (
           <div className="mt-4 flex min-h-62.5 flex-col items-center justify-center rounded-xl border border-dotted border-[#282d35] bg-[#0d0f12] text-center">
             <h2 className="text-[16px] font-extrabold uppercase tracking-wide">
               NOTHING HERE YET
@@ -172,11 +170,21 @@ const MyPlan = () => {
           </div>
         ) : (
           <div className="mt-4 space-y-4">
-            {activeExercises.map((exercise) => (
+            {sortedExercises.map((exercise) => (
               <PlanCard
-                key={exercise.id || exercise.name}
+                key={exercise.id}
                 exercise={exercise}
-                onDelete={handleDelete}
+                onDelete={(id) => {
+                  if (activeTab === "today") {
+                    context.setMyPlan((current) =>
+                      current.filter((item) => item.id !== id),
+                    );
+                  } else {
+                    context.setSavedLater((current) =>
+                      current.filter((item) => item.id !== id),
+                    );
+                  }
+                }}
               />
             ))}
           </div>

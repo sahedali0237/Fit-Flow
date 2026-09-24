@@ -95,7 +95,6 @@ const page = async ({ params }: ParamsType) => {
               <InfoRow label="RATING" value={gym.rating} last />
             </div>
 
-            {/* Instructions */}
             <div className="mt-6">
               <h2 className="text-[13px] font-extrabold tracking-wide">
                 INSTRUCTIONS
