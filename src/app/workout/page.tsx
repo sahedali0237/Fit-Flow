@@ -2,12 +2,22 @@ import { gymTs } from "@/types/page";
 import WorkoutCard from "./workoutCard";
 
 const getData = async (): Promise<gymTs[]> => {
-  const rsc = await fetch("https://api.abcz.workers.dev/api/fitlog", {
-    cache: "no-store",
-  });
-  const data: gymTs[] = await rsc.json();
+  try {
+    const rsc = await fetch("https://api.abcz.workers.dev/api/fitlog", {
+      cache: "no-store",
+    });
 
-  return data;
+    if (!rsc.ok) {
+      throw new Error(`Failed to fetch data: ${rsc.status}`);
+    }
+
+    const data: gymTs[] = await rsc.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching gym data:", error);
+    return [];
+  }
 };
 
 const Page = async () => {
