@@ -7,14 +7,18 @@ import { FaFire, FaStar } from "react-icons/fa";
 import { gymTs } from "@/types/page";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import WorkoutCard from "../workout/workoutCard";
 
 interface PlanCardProps {
   exercise: gymTs;
   onDelete?: (id: string | number) => void;
+  showMarkAsDone?: boolean;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ exercise, onDelete }) => {
+const PlanCard: React.FC<PlanCardProps> = ({
+  exercise,
+  onDelete,
+  showMarkAsDone = true,
+}) => {
   const handleDelete = (id: string | number) => {
     toast.success(`${exercise.name} removed from your plan`);
     if (onDelete) {
@@ -74,13 +78,15 @@ const PlanCard: React.FC<PlanCardProps> = ({ exercise, onDelete }) => {
           View Details
         </Link>
 
-        <button
-          type="button"
-          className="flex items-center gap-1.5 rounded-full bg-[#c8ff00] px-4 py-2 text-[10px] font-extrabold text-black hover:bg-[#b5eb00]"
-        >
-          <FiCheck className="h-3.5 w-3.5 stroke-[3px]" />
-          Mark as Done
-        </button>
+        {showMarkAsDone && (
+          <button
+            type="button"
+            className="flex items-center gap-1.5 rounded-full bg-[#c8ff00] px-4 py-2 text-[10px] font-extrabold text-black hover:bg-[#b5eb00]"
+          >
+            <FiCheck className="h-3.5 w-3.5 stroke-[3px]" />
+            Mark as Done
+          </button>
+        )}
 
         {/* Delete */}
         <button

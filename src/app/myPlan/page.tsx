@@ -174,6 +174,7 @@ const MyPlan = () => {
               <PlanCard
                 key={exercise.id}
                 exercise={exercise}
+                showMarkAsDone={activeTab === "today"}
                 onDelete={(id) => {
                   if (activeTab === "today") {
                     context.setMyPlan((current) =>
