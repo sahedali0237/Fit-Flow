@@ -27,7 +27,6 @@ const HeroSection = () => {
           </button>
         </div>
 
-        {/* Hero Image */}
         <div className="flex-1 flex justify-center md:justify-end w-full">
           <Image
             src="/assets/banner.png"

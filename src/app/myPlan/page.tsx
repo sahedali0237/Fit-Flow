@@ -60,7 +60,6 @@ const MyPlan = () => {
   return (
     <section className="min-h-screen bg-[#0f1115] px-5 py-8 text-white sm:px-8 lg:px-10">
       <div className="mx-auto max-w-300">
-        {/* Header */}
         <div>
           <h1 className="text-[24px] font-extrabold uppercase tracking-tight">
             MY PLAN
@@ -70,7 +69,6 @@ const MyPlan = () => {
           </p>
         </div>
 
-        {/* Stats */}
         <div className="mt-5 grid min-h-23 grid-cols-3 rounded-xl border border-[#252a33] bg-[#13161c]">
           <div className="flex flex-col justify-center border-r border-[#20242b] px-5 sm:px-8">
             <span className="text-[9px] font-medium uppercase text-gray-500">
@@ -99,7 +97,6 @@ const MyPlan = () => {
         </div>
 
         <div className="mt-6 flex items-center justify-between">
-          {/* Tabs */}
           <div className="flex rounded-lg border border-[#252a33] bg-[#13161c] p-0.5">
             <button
               type="button"
@@ -133,7 +130,7 @@ const MyPlan = () => {
             </button>
           </div>
 
-          {/* Sort */}
+          {/* Sort by section*/}
           <div className="flex items-center gap-2">
             <span className="hidden text-[10px] text-gray-500 sm:block">
               Sort By

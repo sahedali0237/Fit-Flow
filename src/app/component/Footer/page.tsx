@@ -6,7 +6,6 @@ const Footer = () => {
   return (
     <footer className="border-t border-white/5 bg-[#0b0c0f]">
       <div className="mx-auto flex max-w-360 items-center justify-between px-6 py-8 lg:px-10">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/assets/favicon.png"
@@ -21,10 +20,10 @@ const Footer = () => {
           </span>
         </Link>
 
-        {/* Copyright */}
-        <p className="text-right text-xs text-[#85858c]">
-          © 2026 Fit Flow — Workout Library. Train hard, log honest.
-        </p>
+        <div className="text-right text-xs text-[#85858c]">
+          <p>© 2026 Fit Flow — Workout Library. Train hard, log honest.</p>
+          <p className="text-center px-1">Sahed Ali</p>
+        </div>
       </div>
     </footer>
   );
