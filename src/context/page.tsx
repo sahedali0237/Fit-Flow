@@ -21,9 +21,7 @@ const ContextProvider = ({ children }: { children?: React.ReactNode }) => {
     setSavedLater,
   };
 
-  return (
-    <gymContext.Provider value={allState}>{children}</gymContext.Provider>
-  );
+  return <gymContext.Provider value={allState}>{children}</gymContext.Provider>;
 };
 
 export default ContextProvider;
